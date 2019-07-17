@@ -108,6 +108,7 @@ func (h *HelmCLI) runHelmWithOutput(args ...string) (string, error) {
 func (h *HelmCLI) Init(clientOnly bool, serviceAccount string, tillerNamespace string, upgrade bool) error {
 	args := []string{}
 	args = append(args, "init")
+	args = append(args, "--stable-repo-url", "http://mirror.azure.cn/kubernetes/charts/")
 	if clientOnly {
 		args = append(args, "--client-only")
 	}
