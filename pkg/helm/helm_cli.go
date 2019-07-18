@@ -109,6 +109,7 @@ func (h *HelmCLI) Init(clientOnly bool, serviceAccount string, tillerNamespace s
 	args := []string{}
 	args = append(args, "init")
 	args = append(args, "--stable-repo-url", "http://mirror.azure.cn/kubernetes/charts/")
+	args = append(args, "--tiller-image", "gcr.azk8s.cn/kubernetes-helm/tiller:v2.14.1")
 	if clientOnly {
 		args = append(args, "--client-only")
 	}
@@ -407,6 +408,7 @@ func (h *HelmCLI) UpgradeChart(chart string, releaseName string, ns string, vers
 	args := []string{}
 	args = append(args, "upgrade")
 	args = append(args, "--namespace", ns)
+
 	repo, err = addUsernamePasswordToURL(repo, username, password)
 	if err != nil {
 		return err
