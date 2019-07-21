@@ -21,6 +21,7 @@ import (
 const (
 	ExposeAnnotation             = "fabric8.io/expose"
 	ExposeURLAnnotation          = "fabric8.io/exposeUrl"
+	JxExposeURLAnnotation        = "fabric8.io/jxExposeUrl"
 	ExposeGeneratedByAnnotation  = "fabric8.io/generated-by"
 	ExposeIngressName            = "fabric8.io/ingress.name"
 	JenkinsXSkipTLSAnnotation    = "jenkins-x.io/skip.tls"
@@ -158,7 +159,11 @@ func FindService(client kubernetes.Interface, name string) (*v1.Service, error) 
 func GetServiceURL(svc *v1.Service) string {
 	url := ""
 	if svc != nil && svc.Annotations != nil {
-		url = svc.Annotations[ExposeURLAnnotation]
+		// url = svc.Annotations[ExposeURLAnnotation]
+		url = svc.Annotations[JxExposeURLAnnotation]
+		if url == "" {
+			url = svc.Annotations[ExposeURLAnnotation]
+		}
 	}
 	if url == "" {
 		scheme := "http"

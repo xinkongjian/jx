@@ -243,29 +243,29 @@ This repository contains the source code for the Jenkins X Development Environme
 
 var (
 	InstalLong = templates.LongDesc(`
-		Installs the Jenkins X platform on a Kubernetes cluster
+		在Kubernetes集群中安装Jenkins X platform
 
-		Requires a --git-username and --git-api-token that can be used to create a new token.
-		This is so the Jenkins X platform can git tag your releases
+		要求 --git-username 以及 --git-api-token 它们可用来创建新的令牌.
+		Jenkins X platform可以为你的发布打上标签
 
-		For more documentation see: [https://jenkins-x.io/getting-started/install-on-cluster/](https://jenkins-x.io/getting-started/install-on-cluster/)
+		更多信息请参考: [https://jenkins-x.io/getting-started/install-on-cluster/](https://jenkins-x.io/getting-started/install-on-cluster/)
 
-		The current requirements are:
+		当前的需求是:
 
-		*RBAC is enabled on the cluster
+		集群中已开启*RBAC
 
-		*Insecure Docker registry is enabled for Docker registries running locally inside Kubernetes on the service IP range. See the above documentation for more detail
+		在Kubernetes集群服务IP范围内的本地Docker，需要开启非安全Docker仓库。 请参考上述文档，获取更多信息
 
 `)
 
 	InstalExample = templates.Examples(`
-		# Default installer which uses interactive prompts to generate git secrets
+		# 默认安装将使用交互式提示来产生git私密信息
 		jx install
 
-		# Install with a GitHub personal access token
+		# 通过GitHub私有访问令牌来安装
 		jx install --git-username jenkins-x-bot --git-api-token 9fdbd2d070cd81eb12bca87861bcd850
 
-		# If you know the cloud provider you can pass this as a CLI argument. E.g. for AWS
+		# 如果你知道云提供商，可在命令中指定，例如AWS
 		jx install --provider=aws
 `)
 	allowedDomainRegex = regexp.MustCompile("^(([a-zA-Z]{1})|" +
@@ -284,7 +284,7 @@ func NewCmdInstall(commonOpts *opts.CommonOptions) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:     "install [flags]",
-		Short:   "Install Jenkins X in the current Kubernetes cluster",
+		Short:   "在Kubernetes集群中安装Jenkins X",
 		Long:    InstalLong,
 		Example: InstalExample,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -297,7 +297,7 @@ func NewCmdInstall(commonOpts *opts.CommonOptions) *cobra.Command {
 
 	options.AddInstallFlags(cmd, false)
 
-	cmd.Flags().StringVarP(&options.Flags.Provider, "provider", "", "", "Cloud service providing the Kubernetes cluster.  Supported providers: "+cloud.KubernetesProviderOptions())
+	cmd.Flags().StringVarP(&options.Flags.Provider, "provider", "", "", "提供Kubernetes集群的云厂商.  支持以下提供者: "+cloud.KubernetesProviderOptions())
 
 	cmd.AddCommand(NewCmdInstallDependencies(commonOpts))
 	awsCreateVaultOptions(cmd, &options.AWSConfig)
